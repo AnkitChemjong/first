@@ -1,5 +1,6 @@
 import './App.css'
-import Form from './compo/Form.jsx';
+import Signin from './compo/Signin.jsx';
+import Login from './compo/Login.jsx';
 import Home from './compo/Home.jsx';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 
@@ -8,7 +9,8 @@ function App() {
     <Router>
    <Routes>
    <Route path='/' element={<Home/>}></Route>
-   <Route path='/form' element={<Form type='signin'/>}></Route>
+   <Route path='/signin' element={<Signin/>}></Route>
+   <Route path='/login' element={<Login/>}></Route>
    </Routes>
     </Router>
   )

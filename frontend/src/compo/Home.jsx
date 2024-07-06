@@ -21,7 +21,8 @@ const Home = () => {
     <>
     <div>
       <h1>Home</h1>
-      <Link to='/form'><button>Form</button></Link>
+      <Link to='/signin'><button className='btn me-4 border-primary rounded-pill'>Create Account.</button></Link>
+      <Link to='/login'><button className='btn ms-4 border-primary rounded-pill'>Login</button></Link>
     </div>
     <div>
       {bdata.map((data)=>{

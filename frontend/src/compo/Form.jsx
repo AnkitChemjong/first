@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import axios from 'axios';
 
 const Form = (props) => {
@@ -13,7 +13,7 @@ const handleChange = (e) => {
 const {name,value}=e.target;
 setData((prev)=>({...prev,[name]:value}));
 }
-const handleSubmit = async (e) => {
+const handleSubmitReg = async (e) => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:8080/user', data);
@@ -24,10 +24,21 @@ const handleSubmit = async (e) => {
       // Handle error (e.g., show an error message)
     }
   };
+  const handleSubmitlog = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:8080/log', data);
+      navigate('/');
+      // Handle success (e.g., show a success message, redirect, etc.)
+    } catch (error) {
+      console.error('There was an error!', error);
+      // Handle error (e.g., show an error message)
+    }
+  };
     
   return (
     <div>
-      <form className='d-grid justify-content-center align-items-center ' onSubmit={handleSubmit}>
+      <form className='d-grid justify-content-center align-items-center ' onSubmit={props.type==='signin'? handleSubmitReg:handleSubmitlog}>
       {props.type==='signin'? (
 
         <h1>Register</h1>
@@ -51,6 +62,7 @@ const handleSubmit = async (e) => {
   <input type="password" name='password' onChange={handleChange} className="form-control" id="exampleInputPassword1"/>
 </div>
 <button type="submit" className="btn btn-primary">{props.type==='signin'? 'Signin':'Login'}</button>
+ <Link to='/'><button className='btn mt-4 border-primary rounded-pill'>Home</button></Link>
  </form>
    
     </div>
