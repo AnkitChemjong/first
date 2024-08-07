@@ -37,5 +37,15 @@ router.get('/items', async (req, res) => {
     res.json(data);
 
 });
+router.delete('/hatawnu', async (req, res) => {
+   
+    res.clearCookie('cook').json({message:"cookie Deleted"});
+
+});
+router.get('/get', async (req, res) => {
+   
+    res.json({user:req.user});
+
+});
 
 export default router;

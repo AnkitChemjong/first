@@ -1,8 +1,11 @@
-import React,{useState} from 'react'
+import React,{ useState,useContext} from 'react'
 import { useNavigate ,Link} from 'react-router-dom';
 import axios from 'axios';
+import { AppContext } from './Context.jsx';
+
 
 const Form = (props) => {
+  const {flag,setFlag}=useContext(AppContext);
 const [data,setData]=useState({
     name:'',
     email:'',
@@ -15,25 +18,26 @@ setData((prev)=>({...prev,[name]:value}));
 }
 const handleSubmitReg = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:8080/user', data);
-      navigate('/');
-      // Handle success (e.g., show a success message, redirect, etc.)
-    } catch (error) {
-      console.error('There was an error!', error);
-      // Handle error (e.g., show an error message)
-    }
+    await axios.post('http://localhost:8080/user', data).then(()=>{
+      navigate('/login');
+      window.alert("Registered user successfully");
+    }).catch((err)=>{
+      navigate('/singin')
+      console.log(err)});
   };
   const handleSubmitlog = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:8080/log', data);
-      navigate('/');
-      // Handle success (e.g., show a success message, redirect, etc.)
-    } catch (error) {
-      console.error('There was an error!', error);
-      // Handle error (e.g., show an error message)
-    }
+    
+      await axios.post('http://localhost:8080/log', data,{withCredentials: true}).then(()=>{
+       setFlag(flag+1);
+        navigate('/');
+        //window.location.reload();
+        window.alert("Successfully logged in");
+       
+      }).catch((err)=>{
+        navigate('/login');
+        console.log(err)});
+
   };
     
   return (
@@ -47,19 +51,19 @@ const handleSubmitReg = async (e) => {
   {props.type === 'signin' ? (
     <>
       <label htmlFor="exampleInputEmail1" className="form-label">FullName</label>
-      <input type="text" name='userName' onChange={handleChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+      <input type="text" name='userName' onChange={handleChange} className="form-control text-center" id="exampleInputEmail1" aria-describedby="emailHelp"/>
     </>
   ) : null}
 </div>
 
 <div className="mb-3">
   <label for="exampleInputEmail1" className="form-label">Email address</label>
-  <input type="email" name='email' onChange={handleChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+  <input type="email" name='email' onChange={handleChange} className="form-control text-center" id="exampleInputEmail1" aria-describedby="emailHelp"/>
   <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
 </div>
 <div class="mb-3">
   <label for="exampleInputPassword1" className="form-label">Password</label>
-  <input type="password" name='password' onChange={handleChange} className="form-control" id="exampleInputPassword1"/>
+  <input type="password" name='password' onChange={handleChange} className="form-control text-center" id="exampleInputPassword1"  autoComplete="current-password"/>
 </div>
 <button type="submit" className="btn btn-primary">{props.type==='signin'? 'Signin':'Login'}</button>
  <Link to='/'><button className='btn mt-4 border-primary rounded-pill'>Home</button></Link>

@@ -21,6 +21,7 @@ const userSchema=new Schema({
     },
     salt:{
         type:'string',
+        required:false
     }
 },{timestamps:true});
 
